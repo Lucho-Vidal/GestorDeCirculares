@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Circulares</h1>
+    <ul>
+        {% for circular in circulares %}
+            <li>
+                <a href="{% url 'circularDetalle' circular.id %}">
+                    {% if circular.important %}
+                        <strong>{{circular.title}}</strong>
+                    {% else %}
+                        {{circular.title}}
+                    {% endif %}
+                    <p>{{circular.description}}</p>
+                    <p>Creado por {{circular.user.username}}</p>
+                    <p>{{ circular.datecompleted|date:"l, j \d\e F \d\e\l Y - H:i\h\s" }}</p>
+
+                </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- <h1>Crear Circular</h1>
+{{ error }}
+<form method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button>Guardar circular</button>
+
+</form> -->
+<main class="container py-5">
+    <div class="row">
+        <div class=" mt-5">
+            <form method="POST" class="card card-body text-center">
+                <h1 class="">Crear Circular</h1>
+                <div>
+                    {{ error }}
+                    {% csrf_token %}
+
+                    <div class="mb-3 ">
+                        <label for="title"> Titulo:
+                            <input type="text" name="title" id="title" class="form-control w-100"
+                                placeholder="Ingrese el titulo">
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description"> Descripción:
+                            <textarea name="description" id="description" class="form-control w-100"
+                                placeholder="Ingrese la descripción"> </textarea>
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="important"> Importante?
+                            <input type="checkbox" name="important" id="important">
+                        </label>
+                    </div>
+                    <button class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
