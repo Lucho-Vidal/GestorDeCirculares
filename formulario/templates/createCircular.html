@@ -1,43 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- <h1>Crear Circular</h1>
-{{ error }}
-<form method="POST">
-    {% csrf_token %}
-    {{form}}
-    <button>Guardar circular</button>
-
-</form> -->
 <main class="container py-5">
-    <div class="row">
-        <div class=" mt-5">
-            <form method="POST" class="card card-body text-center">
-                <h1 class="">Crear Circular</h1>
-                <div>
-                    {{ error }}
-                    {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col-md-6"> <!-- Ajusta el tamaño del formulario -->
+            <form method="POST" class="card card-body text-center shadow-lg">
+                <h1 class="mb-4">Crear Circular</h1>
+                
+                {{ error }}
+                {% csrf_token %}
 
-                    <div class="mb-3 ">
-                        <label for="title"> Titulo:
-                            <input type="text" name="title" id="title" class="form-control w-100"
-                                placeholder="Ingrese el titulo">
-                        </label>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description"> Descripción:
-                            <textarea name="description" id="description" class="form-control w-100"
-                                placeholder="Ingrese la descripción"> </textarea>
-                        </label>
-                    </div>
-                    <div class="mb-3">
-                        <label for="important"> Importante?
-                            <input type="checkbox" name="important" id="important">
-                        </label>
-                    </div>
-                    <button class="btn btn-primary">Guardar</button>
+                <div class="mb-3 text-start">
+                    <label for="title" class="form-label">Título:</label>
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Ingrese el título">
                 </div>
+
+                <div class="mb-3 text-start">
+                    <label for="description" class="form-label">Descripción:</label>
+                    <textarea name="description" id="description" class="form-control" rows="4" 
+                        placeholder="Ingrese la descripción"></textarea>
+                </div>
+
+                <div class="mb-3 form-check text-start">
+                    <input type="checkbox" name="important" id="important" class="form-check-input">
+                    <label for="important" class="form-check-label">Importante?</label>
+                </div>
+
+                <button class="btn btn-primary w-100">Guardar</button>
             </form>
         </div>
     </div>
 </main>
+
 {% endblock %}

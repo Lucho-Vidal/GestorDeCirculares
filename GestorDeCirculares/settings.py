@@ -116,7 +116,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "formulario/static",  # Ajusta si el nombre de tu app es diferente
+]
+
+# Opcional si usas `collectstatic`
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 LOGIN_URL = '/signin'
 

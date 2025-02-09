@@ -85,7 +85,8 @@ def circulares(request):
     circulares = Circular.objects.filter(user=request.user, datecompleted__isnull=True)
     if request.method == 'GET':
         return render(request, "circulares.html",{
-            'circulares': circulares
+            'circulares': circulares,
+            'titulo' : 'Circulares' 
         })
         
 @login_required
@@ -94,35 +95,44 @@ def circularesCompleted(request):
     circulares = Circular.objects.filter(user=request.user, datecompleted__isnull=False)
     if request.method == 'GET':
         return render(request, "circulares.html",{
-            'circulares': circulares
+            'circulares': circulares,
+            'titulo' : 'Circulares completadas' 
         })
 
 @login_required
-def circularDetalle(request,id):
+def circularDetalle(request, id):
+    circular = get_object_or_404(Circular, pk=id, user=request.user)
+
     if request.method == 'GET':
-        circular = get_object_or_404(Circular,pk=id, user=request.user)
         form = CircularForm(instance=circular)
-        return render(request, "circularDetalle.html",{
+        return render(request, "circularDetalle.html", {
             'circular': circular,
             'form': form
         })
     else:
         try:
-            circular = get_object_or_404(Circular,pk=id, user=request.user)
-            form = CircularForm(request.POST,instance=circular)
-            form.save()
-            return redirect('circulares')
+            form = CircularForm(request.POST, instance=circular)
+            if form.is_valid():
+                form.save()
+                return redirect('circulares')
         except ValueError:
-            return render(request, "circulares.html",{
-                'circulares': circulares,
-                'error':"Error al actualizar la circular"
+            return render(request, "circularDetalle.html", {
+                'circular': circular,
+                'form': form,
+                'error': "Error al actualizar la circular"
             })
+
 
 @login_required
 def completeCircular(request,id):
     circular = get_object_or_404(Circular,pk=id,user=request.user)
     if request.method == 'POST':
-        circular.datecompleted = timezone.now()
+        print(circular)
+        if circular.datecompleted == None:
+            print('ingreso')
+            circular.datecompleted = timezone.now()
+        else:
+            circular.datecompleted = None
         circular.save()
         return redirect('circulares')
         

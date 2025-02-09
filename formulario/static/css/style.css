@@ -1,0 +1,116 @@
+/* Normalización básica */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fondo oscuro y estilos generales */
+body {
+    background-color: #121212; /* Negro suave */
+    color: #E0E0E0; /* Texto claro */
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Enlaces */
+a {
+    color: #bb86fc; /* Color de acento */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Botones */
+button {
+    background-color: #1f1f1f;
+    color: #E0E0E0;
+    border: 1px solid #bb86fc;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #bb86fc;
+    color: #121212;
+}
+
+
+
+/* 🌑 Tema Oscuro */
+body {
+    background-color: #121212;  /* Fondo general */
+    color: #E0E0E0;  /* Texto principal */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor principal */
+
+/* Cards */
+card-importante{
+    background-color: #FF6B6B;
+    border: 1px solid #292929;
+    color: #B0B0B0;
+}
+.card {
+    background-color: #1E1E1E; /* Fondo oscuro */
+    border: 1px solid #292929;
+    color: #B0B0B0;
+    padding: 16px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto de agrandado en hover */
+.card:hover {
+    transform: scale(1.03); /* Aumenta un 5% su tamaño */
+    box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.3); /* Brillo leve */
+}
+
+/* Para tareas importantes */
+.card.importante:hover {
+    transform: scale(1.08); /* Aumenta más si es importante */
+    box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5); /* Brillo dorado */
+}
+
+/* Títulos */
+h1, h2, h3 {
+    color: #E0E0E0;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: #6200EE;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #3700B3;
+}
+
+/* Botones secundarios */
+.btn-secondary {
+    background-color: #03DAC5;
+    color: #121212;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #00A896;
+}
+
+/* Alertas */
+.alert-danger {
+    background-color: #CF6679;
+    color: white;
+}
+
+.alert-success {
+    background-color: #00C853;
+    color: white;
+}

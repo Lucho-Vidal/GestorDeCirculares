@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Circulares</h1>
+<main class="container py-5 ">
+    <section >
+    <h1>{{ titulo }}</h1>
+    
     <ul>
         {% for circular in circulares %}
-            <li>
+            {% if circular.important %}
+                <li class="card card-body my-2 py-1 card-importante">
+            {% else %}
+                <li class="card card-body my-2 py-1 ">
+            {% endif %}
                 <a href="{% url 'circularDetalle' circular.id %}">
-                    {% if circular.important %}
-                        <strong>{{circular.title}}</strong>
-                    {% else %}
-                        {{circular.title}}
-                    {% endif %}
+                        
+                        <h2>{{circular.title}}</h2>
+                    <hr>
                     <p>{{circular.description}}</p>
                     <p>Creado por {{circular.user.username}}</p>
                     <p>{{ circular.datecompleted|date:"l, j \d\e F \d\e\l Y - H:i\h\s" }}</p>
@@ -19,6 +24,8 @@
         {% endfor %}
 
     </ul>
+    </section>
+</main>
 
 
 {% endblock %}
