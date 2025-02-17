@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'formulario'
+    'cargaCircularTrabajo'
 ]
 
 MIDDLEWARE = [
@@ -106,7 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
 
 USE_I18N = True
 
@@ -119,7 +120,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "formulario/static",  # Ajusta si el nombre de tu app es diferente
+    BASE_DIR / "cargaCircularTrabajo/static",  # Ajusta si el nombre de tu app es diferente
 ]
 
 # Opcional si usas `collectstatic`

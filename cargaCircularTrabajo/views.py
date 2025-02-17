@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -6,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.utils import timezone
 from .forms import CircularForm
-from .models import Circular
+from .models import Agenda, Circular, Estacion
+import json
 
 # Create your views here.
 
@@ -63,8 +65,14 @@ def home(request):
 @login_required
 def createCircular(request):
     if request.method == 'GET':
+        estaciones = Estacion.objects.all()
+        contactos = Agenda.objects.all()
+        contactos_json = json.dumps([{"id": c.id, "apellidoYNombre": c.apellidoYNombre} for c in contactos])
         return render(request, "createCircular.html",{
-            'form': CircularForm
+            'form': CircularForm,
+            'estaciones': estaciones,
+            'contactos_json': contactos_json,
+            'contactos': contactos
         })
     else:
         try:
@@ -72,6 +80,7 @@ def createCircular(request):
             new_circular = form.save(commit=False)
             new_circular.user = request.user
             new_circular.save()
+            new_circular.responsable.set(request.POST.getlist('responsable'))
             return redirect('circulares')
         except ValueError:
             return render(request, "createCircular.html",{
@@ -82,7 +91,7 @@ def createCircular(request):
 @login_required
 def circulares(request):
     # circulares = Circular.objects.all()
-    circulares = Circular.objects.filter(user=request.user, datecompleted__isnull=True)
+    circulares = Circular.objects.all()
     if request.method == 'GET':
         return render(request, "circulares.html",{
             'circulares': circulares,
@@ -100,27 +109,99 @@ def circularesCompleted(request):
         })
 
 @login_required
+# def circularDetalle(request, id):
+#     circular = get_object_or_404(Circular, pk=id, user=request.user)
+#     estaciones = Estacion.objects.all()
+#     contactos = Agenda.objects.all()
+#     contactos_json = json.dumps([{"id": c.id, "apellidoYNombre": c.apellidoYNombre} for c in contactos])
+
+#     if request.method == 'GET':
+#         form = CircularForm(instance=circular)
+#         return render(request, "circularDetalle.html", {
+#             'circular': circular,
+#             'form': form,
+#             'estaciones': estaciones,
+#             'contactos': contactos,
+#             'contactos_json': contactos_json,
+#         })
+#     else:
+#         try:
+#             print(request.POST)
+#             print('--------------------')
+#             print("Responsable IDs:", request.POST.getlist('responsable'))
+
+#             form = CircularForm(request.POST, instance=circular)
+#             if form.is_valid():
+#                 circular = form.save(commit=False)  # Guardar sin confirmar en la BD aún
+#                 responsable_ids = request.POST.getlist('responsable')  # Obtener lista de IDs
+#                 responsables = Agenda.objects.filter(id__in=responsable_ids)  # Filtrar por IDs
+#                 circular.save()  # Guardar la circular primero (necesario para la relación M2M)
+#                 circular.responsable.set(responsables)  # Asignar los responsables correctamente
+#                 circular.save()
+#                 print("Responsables guardados:", circular.responsable.all())
+#                 return redirect('circulares')
+#         except ValidationError:
+#             return render(request, "circularDetalle.html", {
+#                 'circular': circular,
+#                 'form': form,
+#                 'error': "Error al actualizar la circular"
+#             })
 def circularDetalle(request, id):
     circular = get_object_or_404(Circular, pk=id, user=request.user)
+    estaciones = Estacion.objects.all()
+    contactos = Agenda.objects.all()
+    contactos_json = json.dumps([{"id": c.id, "apellidoYNombre": c.apellidoYNombre} for c in contactos])
 
     if request.method == 'GET':
         form = CircularForm(instance=circular)
         return render(request, "circularDetalle.html", {
             'circular': circular,
-            'form': form
+            'form': form,
+            'estaciones': estaciones,
+            'contactos': contactos,
+            'contactos_json': contactos_json,
         })
+
+    # elif request.method == 'POST':
     else:
         try:
+            print(request.POST)  # ✅ Depuración
             form = CircularForm(request.POST, instance=circular)
+
             if form.is_valid():
-                form.save()
-                return redirect('circulares')
-        except ValueError:
+                circular = form.save(commit=False)  
+
+                responsable_ids = [r for r in request.POST.getlist('responsable') if r ]  # Filtrar valores vacíos
+                responsables = Agenda.objects.filter(id__in=responsable_ids)  # Filtrar solo responsables válidos
+                circular.save()  # ✅ Guardar primero antes de asignar M2M
+                circular.responsable.set(responsables)  # ✅ Asignar correctamente
+                circular.save()  # ✅ Guardar M2M
+
+                return redirect('circulares')  # ✅ Redirigir después de éxito
+            
+            else:
+                print("Formulario inválido:", form.errors)  # ✅ Depuración de errores
+
+        except ValidationError:
             return render(request, "circularDetalle.html", {
                 'circular': circular,
                 'form': form,
-                'error': "Error al actualizar la circular"
+                'error': "Error al actualizar la circular",
+                'estaciones': estaciones,
+                'contactos': contactos,
+                'contactos_json': contactos_json,
             })
+    
+    print(request.method)
+    # 🔴 IMPORTANTE: Si no es un GET ni un POST, debe devolver un HttpResponse.
+    return render(request, "circularDetalle.html", {
+        'circular': circular,
+        'form': CircularForm(instance=circular),
+        'estaciones': estaciones,
+        'contactos': contactos,
+        'contactos_json': contactos_json,
+        'error': "Método HTTP no permitido",
+    })
 
 
 @login_required
@@ -128,7 +209,7 @@ def completeCircular(request,id):
     circular = get_object_or_404(Circular,pk=id,user=request.user)
     if request.method == 'POST':
         print(circular)
-        if circular.datecompleted == None:
+        if circular.datecompleted:
             print('ingreso')
             circular.datecompleted = timezone.now()
         else:

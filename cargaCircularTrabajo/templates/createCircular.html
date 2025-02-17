@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12"> <!-- Ajusta el tamaño del formulario -->
+            <form method="POST" class=" shadow-lg">
+                <h1 class="mb-4">Crear circular de trabajo</h1>
+                
+                {{ error }}
+                {% csrf_token %}
+
+                <label for="id_titulo" class="offset-md-4">Título:</label>
+                <div class="col-md-4 offset-md-4 d-flex justify-content-center  mb-5">
+                    <input type="text" name="titulo" class="form-control" 
+                    placeholder="Ingrese el título" maxlength="200" required 
+                    id="id_titulo" value="{{ form.titulo.value }}">
+                </div>
+                
+                <label for="id_Solicitante">Solicitante:</label>
+                <div class="col-md-4 mb-3">
+                    <input type="text" name="Solicitante" class="form-control " 
+                    placeholder="Ingrese el solicitante" maxlength="200" required 
+                    id="id_Solicitante" value="{{ form.Solicitante.value }}">
+                </div>
+                <hr>
+                <div class="row my-5 justify-content-around">
+                    <div class="col-md-4 ">
+    
+                        <label for="id_fechaInicioTrabajo">Fecha de Inicio:</label>
+                        <input type="datetime-local" name="fechaInicioTrabajo" class="form-control" 
+                               id="id_fechaInicioTrabajo" value="{{ form.fechaInicioTrabajo.value }}">
+                    </div>
+                
+                    <div class="col-md-4 ">
+                    
+                        <label for="id_fechaFinTrabajo">Fecha de Fin:</label>
+                        <input type="datetime-local" name="fechaFinTrabajo" class="form-control" 
+                               id="id_fechaFinTrabajo" value="{{ form.fechaFinTrabajo.value }}">
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row my-5 justify-content-around">
+                    <div class="col-md-4">
+                        <label for="id_ocupaVia">¿Ocupa Vía?</label>
+                        <input type="checkbox" name="ocupaVia" class="form-check-input" id="id_ocupaVia" 
+                               {% if form.ocupaVia.value %} checked {% endif %}>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <label for="id_necesitaCorteEnergia">¿Necesita Corte de Energía?</label>
+                        <input type="checkbox" name="necesitaCorteEnergia" class="form-check-input" id="id_necesitaCorteEnergia" 
+                               {% if form.necesitaCorteEnergia.value %} checked {% endif %}>
+                    </div>
+                </div>
+                <hr>
+                <div class="row my-5 justify-content-around">
+                    <div class="col-md-4">
+                        <div>
+                            <label for="id_kmInicio">Km de Inicio:</label>
+                            <input type="text" name="kmInicio" class="form-control" 
+                                placeholder="Ingrese el km de inicio" id="id_kmInicio" 
+                                value="{{ form.kmInicio.value }}">
+                        </div>
+                    
+                        <div>
+                            <label for="id_PaloInicio">Palo de Inicio:</label>
+                            <input type="text" name="PaloInicio" class="form-control" 
+                                placeholder="Ingrese el palo de inicio" id="id_PaloInicio" 
+                                value="{{ form.PaloInicio.value }}">
+                        </div>
+                        <div>
+                            <label for="id_estacionInicio">Estación de Inicio:</label>
+                            <select name="estacionInicio" class="form-select" id="id_estacionInicio">
+                                <option value="">Seleccione estación de inicio</option>
+                                {% for estacion in estaciones %}
+                                    <option value="{{ estacion.id }}" {% if form.estacionInicio.value == estacion.id %} selected {% endif %}>
+                                        {{ estacion }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label for="id_kmFin">Km de Fin:</label>
+                            <input type="text" name="kmFin" class="form-control" 
+                                placeholder="Ingrese el km de fin" id="id_kmFin" 
+                                value="{{ form.kmFin.value }}">
+                        </div>
+                        <div>
+                            <label for="id_paloFin">Palo de Fin:</label>
+                            <input type="text" name="paloFin" class="form-control" 
+                                placeholder="Ingrese el palo de fin" id="id_paloFin" 
+                                value="{{ form.paloFin.value }}">
+                        </div>
+                        <div>
+                            <label for="id_estacionFin">Estación de Fin:</label>
+                            <select name="estacionFin" class="form-select" id="id_estacionFin">
+                                <option value="">Seleccione estación de fin</option>
+                                {% for estacion in estaciones %}
+                                    <option value="{{ estacion.id }}" {% if form.estacionFin.value == estacion.id %} selected {% endif %}>
+                                        {{ estacion }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                <hr class="my-5">
+                <div class="col-md-4 ">
+                    <label for="id_via">Vía:</label>
+                    <select name="via" class="form-select" id="id_via">
+                        <option value="no ocupa">No ocupa</option>
+                        <option value="1">Ascendente</option>
+                        <option value="2">Descendente</option>
+                        <option value="Ambas">Ambas</option>
+                        <option value="1">Via 1 (Sector PC-TY)</option>
+                        <option value="2">Via 2 (Sector PC-TY)</option>
+                        <option value="3">Via 3 (Sector PC-TY)</option>
+                        <option value="4">Via 4 (Sector PC-TY)</option>
+                        <option value="Todas">Todas (Sector PC-TY)</option>
+                    </select>
+                </div>
+                <hr class="my-5">
+                <div>
+                    <label for="id_descripcion">Descripción:</label>
+                    <textarea name="descripcion" class="form-control" rows="3" 
+                              placeholder="Ingrese la descripción" id="id_descripcion">{{ form.descripcion.value }}</textarea>
+                </div>
+                <hr class="my-5">
+                <div class=" ">
+                    <label for="id_responsable">Responsable:</label>
+                    <!-- <input type="text" class="form-control mb-2" id="search-responsable" placeholder="Buscar responsable..."> -->
+    
+                    <div id="responsables-container">
+                        <div class="responsable-group col-md-10">
+                            <!-- <select name="responsable" class="form-control responsable-select">
+                                <option value="">Seleccione un responsable</option>
+                                {% for contacto in contactos %}
+                                    <option value="{{ contacto.id }}" data-nombre="{{ contacto.apellidoYNombre|lower }}">
+                                        {{ contacto.apellidoYNombre }}
+                                    </option>
+                                {% endfor %}
+                            </select> -->
+                            <select name="responsable" class="form-control responsable-select">
+                                <option value="">-- Seleccionar --</option>
+                                {% for contacto in contactos %}
+                                    <option value="{{ contacto.id }}" {% if contacto in circular.responsable.all %}selected{% endif %}>
+                                        {{ contacto.apellidoYNombre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <!-- <select name="responsable">
+                                <option value="">-- Seleccionar --</option>
+                                {% for responde in circular.responsable.all %}
+                                    <option value="{{ contacto.id }}" {% if contacto in circular.responsable.all %}selected{% endif %}>
+                                        {{ contacto.apellidoYNombre }}
+                                    </option>
+                                {% endfor %}
+                            </select> -->
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary mt-2" id="add-responsable">Agregar Responsable</button>
+                </div>
+                <hr class="my-5">
+                <div class="row my-5 justify-content-around">
+                    <div class="col-md-3">
+                        <label for="id_supervisorTransporte">¿Supervisor de Transporte?</label>
+                        <input type="checkbox" name="supervisorTransporte" class="form-check-input" id="id_supervisorTransporte" 
+                               {% if form.supervisorTransporte.value %} checked {% endif %}>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="id_piloto">¿Piloto?</label>
+                        <input type="checkbox" name="piloto" class="form-check-input" id="id_piloto" 
+                               {% if form.piloto.value %} checked {% endif %}>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="id_personalPolicial">¿Personal Policial?</label>
+                        <input type="checkbox" name="personalPolicial" class="form-check-input" id="id_personalPolicial" 
+                               {% if form.personalPolicial.value %} checked {% endif %}>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="id_otro">¿Otro?</label>
+                        <input type="checkbox" name="otro" class="form-check-input" id="id_otro"
+                               {% if form.otro.value %} checked {% endif %}>
+                    </div>
+                </div>
+                <hr>                
+                <div id="detalleOtroContainer" style="display: none;" class="mb-5">
+                    <label for="id_detalleOtro">Detalle otro:</label>
+                    <textarea name="detalleOtro" class="form-control" rows="4" placeholder="Ingrese detalles" id="id_detalleOtro"></textarea>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>   
+    <script>
+        const contactos = JSON.parse('{{ contactos_json|safe }}'); 
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+</main>
+
+{% endblock %}
