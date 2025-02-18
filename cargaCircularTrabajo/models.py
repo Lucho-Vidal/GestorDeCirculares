@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from Agenda.models import Agenda
 
 class Estacion(models.Model):
     estacion = models.CharField(max_length=50)
@@ -7,15 +8,7 @@ class Estacion(models.Model):
     def __str__(self):
         return self.estacion
     
-class Agenda(models.Model):
-    email= models.CharField(max_length=100)
-    apellidoYNombre= models.CharField(max_length=100)
-    subGerencia = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=50)
-    interno = models.CharField(max_length=20)
 
-    def __str__(self):
-        return self.apellidoYNombre + " de la subgerencia de: " + self.subGerencia
 # Create your models here.
 class Circular(models.Model):
     titulo = models.CharField(max_length=200,default='')

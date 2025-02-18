@@ -135,14 +135,6 @@
     
                     <div id="responsables-container">
                         <div class="responsable-group col-md-10">
-                            <!-- <select name="responsable" class="form-control responsable-select">
-                                <option value="">Seleccione un responsable</option>
-                                {% for contacto in contactos %}
-                                    <option value="{{ contacto.id }}" data-nombre="{{ contacto.apellidoYNombre|lower }}">
-                                        {{ contacto.apellidoYNombre }}
-                                    </option>
-                                {% endfor %}
-                            </select> -->
                             <select name="responsable" class="form-control responsable-select">
                                 <option value="">-- Seleccionar --</option>
                                 {% for contacto in contactos %}
@@ -151,14 +143,6 @@
                                     </option>
                                 {% endfor %}
                             </select>
-                            <!-- <select name="responsable">
-                                <option value="">-- Seleccionar --</option>
-                                {% for responde in circular.responsable.all %}
-                                    <option value="{{ contacto.id }}" {% if contacto in circular.responsable.all %}selected{% endif %}>
-                                        {{ contacto.apellidoYNombre }}
-                                    </option>
-                                {% endfor %}
-                            </select> -->
                         </div>
                     </div>
                     <button type="button" class="btn btn-secondary mt-2" id="add-responsable">Agregar Responsable</button>

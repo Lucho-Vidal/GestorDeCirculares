@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from cargaCircularTrabajo import views
+from Agenda import views as viewsAgenda
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
@@ -29,4 +31,9 @@ urlpatterns = [
     path('circularDetalle/<int:id>/complete', views.completeCircular, name='completeCircular'),
     path('circularDetalle/<int:id>/delete', views.deleteCircular, name='deleteCircular'),
     path('createCircular/', views.createCircular, name='createCircular'),
+
+    path('agenda/', viewsAgenda.agenda , name='agenda'),
+    path('createContacto/', viewsAgenda.createContacto , name='nuevoContacto'),
+    path('editContacto/<int:id>/', viewsAgenda.editContacto , name='editContacto'),
+    path('deleteContacto/<int:id>/', viewsAgenda.deleteContacto, name='deleteContacto'),
 ]

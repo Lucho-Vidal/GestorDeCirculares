@@ -8,26 +8,23 @@
     </div>
     <ul>
         {% for circular in circulares %}
-            {% if circular.important %}
-                <li class="card card-body my-2 py-1 card-importante">
-            {% else %}
-                <li class="card card-body my-2 py-1 ">
-            {% endif %}
+            <li class="card card-body my-2 py-1 ">
                 <a href="{% url 'circularDetalle' circular.id %}">
-                        
-                    <h2>{{circular.titulo}}</h2>
+                    <div class="d-flex justify-content-between ">
+                        <h2>{{circular.titulo}}</h2>
+                        <form action="{% url 'deleteCircular' circular.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-danger ">Eliminar circular</button>
+                        </form>
+                    </div>
                     <hr>
                     <p>{{circular.descripcion}}</p>
                     <p>Creado por {{circular.user.username}}</p>
                     <p>{{ circular.created|date:"l, j \d\e F \d\e\l Y - H:i\h\s" }}</p>
-
                 </a>
             </li>
         {% endfor %}
-
     </ul>
     </section>
 </main>
-
-
 {% endblock %}

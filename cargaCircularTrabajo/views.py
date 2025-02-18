@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.utils import timezone
 from .forms import CircularForm
-from .models import Agenda, Circular, Estacion
+from .models import Circular, Estacion
+from Agenda.models import Agenda
 import json
 
 # Create your views here.
@@ -109,43 +110,6 @@ def circularesCompleted(request):
         })
 
 @login_required
-# def circularDetalle(request, id):
-#     circular = get_object_or_404(Circular, pk=id, user=request.user)
-#     estaciones = Estacion.objects.all()
-#     contactos = Agenda.objects.all()
-#     contactos_json = json.dumps([{"id": c.id, "apellidoYNombre": c.apellidoYNombre} for c in contactos])
-
-#     if request.method == 'GET':
-#         form = CircularForm(instance=circular)
-#         return render(request, "circularDetalle.html", {
-#             'circular': circular,
-#             'form': form,
-#             'estaciones': estaciones,
-#             'contactos': contactos,
-#             'contactos_json': contactos_json,
-#         })
-#     else:
-#         try:
-#             print(request.POST)
-#             print('--------------------')
-#             print("Responsable IDs:", request.POST.getlist('responsable'))
-
-#             form = CircularForm(request.POST, instance=circular)
-#             if form.is_valid():
-#                 circular = form.save(commit=False)  # Guardar sin confirmar en la BD aún
-#                 responsable_ids = request.POST.getlist('responsable')  # Obtener lista de IDs
-#                 responsables = Agenda.objects.filter(id__in=responsable_ids)  # Filtrar por IDs
-#                 circular.save()  # Guardar la circular primero (necesario para la relación M2M)
-#                 circular.responsable.set(responsables)  # Asignar los responsables correctamente
-#                 circular.save()
-#                 print("Responsables guardados:", circular.responsable.all())
-#                 return redirect('circulares')
-#         except ValidationError:
-#             return render(request, "circularDetalle.html", {
-#                 'circular': circular,
-#                 'form': form,
-#                 'error': "Error al actualizar la circular"
-#             })
 def circularDetalle(request, id):
     circular = get_object_or_404(Circular, pk=id, user=request.user)
     estaciones = Estacion.objects.all()

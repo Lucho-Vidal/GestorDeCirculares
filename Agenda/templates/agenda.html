@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-5 ">
+    <section >
+    <h1>{{ titulo }}</h1>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" href="/createContacto">Nuevo contacto</a>
+    </div>
+    <ul>
+        {% for contacto in contactos %}
+            <li class="card card-body my-2 py-1 ">
+                <div class="d-flex justify-content-end">
+                    <!-- <button class="btn btn-danger" id="delete-button" data-id="{{ contacto.id }}">X</button> -->
+                    <a href="{% url 'deleteContacto' contacto.id %}" class="btn btn-danger">X</a>
+                <!-- onclick="return confirm('¿Seguro que deseas eliminar este contacto?');"> -->
+                </div>
+                <a href="{% url 'editContacto' contacto.id %}">
+                    <div class="d-flex justify-content-between ">
+                        <h2 class="my-3">{{contacto.apellidoYNombre}}</h2>
+                        
+                        <p class="my-4">De: {{contacto.subGerencia}}</p>
+                    </div>
+                </a>
+                <hr>
+                <a class="my-3" href="mailto:{{contacto.email}}">{{contacto.email}}</a>
+                <div class="d-flex justify-content-evenly">
+                    <p>telefono: {{contacto.telefono}}</p>
+                    <p>Interno: {{contacto.interno}}</p>
+                    <p>Celular: {{contacto.celular}}</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    </section>
+</main>
+{% endblock %}
