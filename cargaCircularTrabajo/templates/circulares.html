@@ -10,13 +10,24 @@
         {% for circular in circulares %}
             <li class="card card-body my-2 py-1 ">
                 <a href="{% url 'circularDetalle' circular.id %}">
-                    <div class="d-flex justify-content-between ">
+                    <div class="d-flex justify-content-between my-3">
                         <h2>{{circular.titulo}}</h2>
-                        <form action="{% url 'deleteCircular' circular.id %}" method="POST">
+                        <!-- <form action="{% url 'deleteCircular' circular.id %}" method="POST">
                             {% csrf_token %}
-                            <button class="btn btn-danger ">Eliminar circular</button>
-                        </form>
+                            <button class="btn btn-danger "
+                            >Eliminar circular</button>
+                            
+                        </form> -->
+                        <a href="{% url 'deleteCircular' circular.id %}" class="btn btn-danger">X</a>
                     </div>
+                    <div>
+                        <a href="{% url 'carga_pdf' circular.id %}" class="btn btn-success" target="_blank" rel="noopener noreferrer">Generar PDF</a>
+                        <a href="{% url 'enviar_mail' circular.id %}" class="btn btn-info">Enviar por Mail</a>
+                    </div>
+                        <!-- <form method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-success" type="submit">Generar PDF</button> -->
+                    </form>                        
                     <hr>
                     <p>{{circular.descripcion}}</p>
                     <p>Creado por {{circular.user.username}}</p>

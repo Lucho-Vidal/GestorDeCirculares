@@ -31,6 +31,8 @@ urlpatterns = [
     path('circularDetalle/<int:id>/complete', views.completeCircular, name='completeCircular'),
     path('circularDetalle/<int:id>/delete', views.deleteCircular, name='deleteCircular'),
     path('createCircular/', views.createCircular, name='createCircular'),
+    path('carga_pdf/<int:id>/', views.editar_pdf, name='carga_pdf'),
+    path("enviar-mail/<int:id>/", views.enviar_mail, name="enviar_mail"),
 
     path('agenda/', viewsAgenda.agenda , name='agenda'),
     path('createContacto/', viewsAgenda.createContacto , name='nuevoContacto'),

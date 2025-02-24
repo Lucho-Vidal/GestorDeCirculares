@@ -19,6 +19,9 @@ a {
     color: #bb86fc; /* Color de acento */
     text-decoration: none;
 }
+div > a {
+    height: 35px;
+}
 
 a:hover {
     text-decoration: none;
@@ -113,4 +116,61 @@ h1, h2, h3 {
 .alert-success {
     background-color: #00C853;
     color: white;
+}
+
+
+
+/* 
+Enviar mail select multiple
+Cambia el color de la fuente y el fondo */
+/* Estilo para el contenedor de Choices.js */
+.choices {
+    font-size: 16px;
+    color: #333 !important; /* Aseguramos que el texto sea oscuro */
+    background-color: #fff !important; /* Fondo blanco */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Estilo para la lista desplegable */
+.choices__list--dropdown .choices__item {
+    color: #333 !important; /* Texto oscuro */
+    background-color: #f9f9f9 !important; /* Fondo claro */
+    font-weight: normal;
+}
+
+/* Cambiar el color de fondo cuando se pasa el mouse sobre un elemento */
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+    background-color: #007bff !important; /* Azul */
+    color: white !important;
+}
+
+/* Estilo para los tags de los elementos seleccionados */
+.choices__item--selectable {
+    background-color: #007bff !important; /* Azul */
+    color: white !important;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+/* Estilo para el botón de eliminar un tag */
+.choices__item--selectable .choices__button {
+    color: white !important;
+    margin-left: 5px;
+}
+
+/* Fondo y texto de los elementos del select original */
+select {
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+select option {
+    background-color: #f9f9f9;
+    color: #333;
 }

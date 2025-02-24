@@ -22,6 +22,13 @@
                         placeholder="Ingrese la subgerencia" 
                         value="{{ form.subGerencia.value|default_if_none:'' }}">
                 </div>
+
+                <div class="mb-3 text-start">
+                    <label for="grupo" class="form-label">Grupo:</label>
+                    <input type="text" name="grupo" id="grupo" class="form-control"
+                        placeholder="Ingrese el grupo" 
+                        value="{{ form.grupo.value|default_if_none:'' }}">
+                </div>
             
                 <div class="mb-3 text-start">
                     <label for="email" class="form-label">E-mail:</label>

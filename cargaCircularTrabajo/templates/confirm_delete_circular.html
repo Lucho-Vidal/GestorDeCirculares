@@ -3,13 +3,13 @@
 <body>
     <div class="container mt-5">
         <div class="card shadow-lg p-4">
-            <h2 class="text-center text-danger">Eliminar Contacto</h2>
-            <p class="text-center">¿Estás seguro de que deseas eliminar a <strong>{{ agenda.apellidoYNombre }}</strong>?</p>
+            <h2 class="text-center text-danger">Eliminar Circular</h2>
+            <p class="text-center">¿Estás seguro de que deseas eliminar a <strong>{{ circular.titulo }}</strong>?</p>
             
             <form method="POST" class="text-center">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-                <a href="{% url 'agenda' %}" class="btn btn-secondary">Cancelar</a>
+                <a href="{% url 'circulares' %}" class="btn btn-secondary">Cancelar</a>
             </form>
         </div>
     </div>
