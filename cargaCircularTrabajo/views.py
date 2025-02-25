@@ -295,14 +295,11 @@ def enviar_mail(request, id):
     output_pdf = generar_pdf(circular)  
 
     if request.method == "POST":
-        # Obtener los IDs de los destinatarios seleccionados manualmente
-        # destinatarios_ids = request.POST.getlist("destinatarios")  # Destinatarios seleccionados manualmente
-        # destinatarios = Agenda.objects.filter(id__in=destinatarios_ids).values_list('email', flat=True)
+
         # Obtener los IDs de los destinatarios seleccionados manualmente
         destinatarios_ids = request.POST.getlist("destinatarios")  # Destinatarios seleccionados manualmente
         destinatarios = list(Agenda.objects.filter(id__in=destinatarios_ids).values_list('email', flat=True))
 
-        
         # Obtener los destinatarios de la subgerencia seleccionada
         subgerencia = request.POST.get("subgerencia")  # Suponiendo que el ID de subgerencia viene en el formulario
         if subgerencia:
@@ -332,38 +329,25 @@ def enviar_mail(request, id):
                 'subGerencias': subGerencia_unique,
                 'grupos': grupo_unique,
             })
-        i=1
-        print(i)
-        i += 1
+
         # Convertir los emails en una lista separada por ";"
         destinatarios_str = "; ".join(all_destinatarios)
-        print(i)
-        i += 1
+
         # Obtener el asunto y mensaje
         asunto = request.POST.get("asunto")
         mensaje = request.POST.get("mensaje")
 
         try:
-            print(i)
-            i += 1
-            
-            print(i ,"4?")
-            i += 1
-
             # Iniciar la conexión con Outlook
-            # outlook = win32.Dispatch("Outlook.Application")
             try:
                 pythoncom.CoInitialize()    
                 outlook = win32.Dispatch("Outlook.Application")
                 print("Outlook se inició correctamente.")
             except Exception as e:
                 print(f"Error al iniciar Outlook: {e}")
-            print(i)
-            i += 1
+
             mail = outlook.CreateItem(0)  # 0 = Correo
             
-            print(i)
-            i += 1
             # Configurar correo
             mail.To = destinatarios_str
             mail.Subject = asunto
@@ -372,59 +356,14 @@ def enviar_mail(request, id):
             # Adjuntar el archivo PDF
             mail.Attachments.Add(output_pdf)
             
-            print(i)
-            i += 1
             # Enviar el correo
             mail.Send()
-            print("mail: ",mail)
             messages.success(request, "Correo enviado con éxito.")
 
             return redirect("enviar_mail", id=circular.id)  # Redirigir a la misma vista para mostrar el mensaje
 
         except Exception as e:
             messages.error(request, f"Error al enviar el correo: {str(e)}")
-
-    # if request.method == "POST":
-    #     destinatarios_ids = request.POST.getlist("destinatarios")  # Obtener IDs de los destinatarios
-    #     destinatarios = Agenda.objects.filter(id__in=destinatarios_ids).values_list('email', flat=True)
-    #     # destinatario = request.POST.get("destinatario")
-    #     asunto = request.POST.get("asunto")
-    #     mensaje = request.POST.get("mensaje")
-
-    #     if not destinatarios:
-    #         messages.error(request, "El destinatario es obligatorio.")
-    #         return render(request, "enviar_mail.html", {
-    #             "error": "No se seleccionaron destinatarios.", 
-    #             "agenda": agenda,
-    #             "circular": circular
-    #             })
-        
-    #     # Convertir los emails en una lista separada por ";"
-    #     destinatarios_str = "; ".join(destinatarios)
-
-    #     try:
-    #         pythoncom.CoInitialize()
-
-    #         # Iniciar la conexión con Outlook
-    #         outlook = win32.Dispatch("Outlook.Application")
-    #         mail = outlook.CreateItem(0)  # 0 = Correo
-
-    #         # Configurar correo
-    #         mail.To = destinatarios_str
-    #         mail.Subject = asunto
-    #         mail.Body = mensaje
-
-    #         # Adjuntar el archivo PDF
-    #         mail.Attachments.Add(output_pdf)
-
-    #         # Enviar el correo
-    #         mail.Send()
-    #         messages.success(request, "Correo enviado con éxito.")
-
-    #         return redirect("enviar_mail", id=circular.id)  # Redirigir a la misma vista para mostrar el mensaje
-
-    #     except Exception as e:
-    #         messages.error(request, f"Error al enviar el correo: {str(e)}")
 
     return render(request, "enviar_mail.html", {
         "circular": circular,
@@ -433,26 +372,3 @@ def enviar_mail(request, id):
         'grupos': grupo_unique,
         })
     
-# def enviar_correo_outlook(destinatario, asunto, cuerpo, adjunto):
-#     try:
-#         # Inicializar Outlook
-#         outlook = win32com.client.Dispatch("Outlook.Application")
-#         mail = outlook.CreateItem(0)  # 0 = Correo
-
-#         # Configurar correo
-#         mail.To = destinatario
-#         mail.Subject = asunto
-#         mail.Body = cuerpo
-
-#         # Adjuntar archivo
-#         if os.path.exists(adjunto):
-#             mail.Attachments.Add(adjunto)
-#         else:
-#             return HttpResponse("Error: No se encontró el archivo adjunto.")
-
-#         # Enviar el correo
-#         mail.Send()
-#         return HttpResponse("Correo enviado correctamente.")
-    
-#     except Exception as e:
-#         return HttpResponse(f"Error al enviar el correo: {e}")
